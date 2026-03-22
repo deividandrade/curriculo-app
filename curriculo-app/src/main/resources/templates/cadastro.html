@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cadastro de Currículo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link
+	href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+	<div class="page-shell">
+
+
+		<aside class="sidebar">
+			<div class="sidebar-brand">
+				<span class="brand-icon">✦</span> <span class="brand-name">CurriculoApp</span>
+			</div>
+			<div class="sidebar-steps">
+				<div class="step active" data-section="0">
+					<span class="step-num">01</span> <span class="step-label">Dados
+						Pessoais</span>
+				</div>
+				<div class="step" data-section="1">
+					<span class="step-num">02</span> <span class="step-label">Formação</span>
+				</div>
+				<div class="step" data-section="2">
+					<span class="step-num">03</span> <span class="step-label">Experiência</span>
+				</div>
+				<div class="step" data-section="3">
+					<span class="step-num">04</span> <span class="step-label">Habilidades</span>
+				</div>
+			</div>
+			<div class="sidebar-quote">
+				<em>"Seu próximo passo começa aqui."</em>
+			</div>
+		</aside>
+
+
+		<main class="main-content">
+
+			<header class="form-header">
+				<h1>
+					Cadastro de <span class="highlight">Currículo</span>
+				</h1>
+				<p>Preencha os campos abaixo para criar seu perfil profissional.</p>
+			</header>
+
+
+			<div th:if="${erro}" class="alert alert-error">
+				<span>⚠</span> <span th:text="${erro}"></span>
+			</div>
+
+			<form th:action="@{/curriculo/cadastro}" th:object="${curriculoDTO}"
+				method="post" id="curriculoForm" novalidate>
+
+
+				<section class="form-section active" id="section-0">
+					<div class="section-title">
+						<span class="section-num">01</span>
+						<h2>Dados Pessoais</h2>
+					</div>
+
+					<div class="grid grid-2">
+						<div class="field">
+							<label for="nomeCompleto">Nome Completo <span class="req">*</span></label>
+							<input type="text" id="nomeCompleto" th:field="*{nomeCompleto}"
+								placeholder="Seu nome completo"> <span
+								class="field-error" th:if="${#fields.hasErrors('nomeCompleto')}"
+								th:errors="*{nomeCompleto}"></span>
+						</div>
+						<div class="field">
+							<label for="email">E-mail <span class="req">*</span></label> <input
+								type="email" id="email" th:field="*{email}"
+								placeholder="seuemail@exemplo.com"> <span
+								class="field-error" th:if="${#fields.hasErrors('email')}"
+								th:errors="*{email}"></span>
+						</div>
+					</div>
+
+					<div class="grid grid-2">
+						<div class="field">
+							<label for="telefone">Telefone <span class="req">*</span></label>
+							<input type="tel" id="telefone" th:field="*{telefone}"
+								placeholder="(83) 99999-9999"> <span class="field-error"
+								th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}"></span>
+						</div>
+						<div class="field">
+							<label for="dataNascimento">Data de Nascimento <span
+								class="req">*</span></label> <input type="date" id="dataNascimento"
+								th:field="*{dataNascimento}"> <span class="field-error"
+								th:if="${#fields.hasErrors('dataNascimento')}"
+								th:errors="*{dataNascimento}"></span>
+						</div>
+					</div>
+
+					<div class="grid grid-2">
+						<div class="field">
+							<label for="cidade">Cidade</label> <input type="text" id="cidade"
+								th:field="*{cidade}" placeholder="Campina Grande">
+						</div>
+						<div class="field">
+							<label for="estado">Estado</label> <select id="estado"
+								th:field="*{estado}">
+								<option value="">Selecione...</option>
+								<option value="AC">Acre</option>
+								<option value="AL">Alagoas</option>
+								<option value="AM">Amazonas</option>
+								<option value="BA">Bahia</option>
+								<option value="CE">Ceará</option>
+								<option value="DF">Distrito Federal</option>
+								<option value="ES">Espírito Santo</option>
+								<option value="GO">Goiás</option>
+								<option value="MA">Maranhão</option>
+								<option value="MG">Minas Gerais</option>
+								<option value="MS">Mato Grosso do Sul</option>
+								<option value="MT">Mato Grosso</option>
+								<option value="PA">Pará</option>
+								<option value="PB">Paraíba</option>
+								<option value="PE">Pernambuco</option>
+								<option value="PI">Piauí</option>
+								<option value="PR">Paraná</option>
+								<option value="RJ">Rio de Janeiro</option>
+								<option value="RN">Rio Grande do Norte</option>
+								<option value="RO">Rondônia</option>
+								<option value="RR">Roraima</option>
+								<option value="RS">Rio Grande do Sul</option>
+								<option value="SC">Santa Catarina</option>
+								<option value="SE">Sergipe</option>
+								<option value="SP">São Paulo</option>
+								<option value="TO">Tocantins</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="grid grid-2">
+						<div class="field">
+							<label for="linkedin">LinkedIn</label> <input type="url"
+								id="linkedin" th:field="*{linkedin}"
+								placeholder="https://linkedin.com/in/seuperfil">
+						</div>
+						<div class="field">
+							<label for="github">GitHub</label> <input type="url" id="github"
+								th:field="*{github}" placeholder="https://github.com/seuusuario">
+						</div>
+					</div>
+
+					<div class="field">
+						<label for="objetivo">Objetivo Profissional</label>
+						<textarea id="objetivo" th:field="*{objetivo}" rows="4"
+							placeholder="Descreva brevemente seus objetivos e aspirações profissionais..."></textarea>
+						<span class="char-counter" id="objetivoCounter">0 / 1000</span>
+					</div>
+
+					<div class="section-nav">
+						<button type="button" class="btn btn-next"
+							onclick="goToSection(1)">
+							Próximo <span>→</span>
+						</button>
+					</div>
+				</section>
+
+
+				<section class="form-section" id="section-1">
+					<div class="section-title">
+						<span class="section-num">02</span>
+						<h2>Formação Acadêmica</h2>
+					</div>
+
+					<div id="formacoesContainer"></div>
+
+					<button type="button" class="btn btn-add"
+						onclick="adicionarFormacao()">+ Adicionar Formação</button>
+
+					<div class="section-nav">
+						<button type="button" class="btn btn-prev"
+							onclick="goToSection(0)">← Anterior</button>
+						<button type="button" class="btn btn-next"
+							onclick="goToSection(2)">Próximo →</button>
+					</div>
+				</section>
+
+
+				<section class="form-section" id="section-2">
+					<div class="section-title">
+						<span class="section-num">03</span>
+						<h2>Experiência Profissional</h2>
+					</div>
+
+					<div id="experienciasContainer"></div>
+
+					<button type="button" class="btn btn-add"
+						onclick="adicionarExperiencia()">+ Adicionar Experiência
+					</button>
+
+					<div class="section-nav">
+						<button type="button" class="btn btn-prev"
+							onclick="goToSection(1)">← Anterior</button>
+						<button type="button" class="btn btn-next"
+							onclick="goToSection(3)">Próximo →</button>
+					</div>
+				</section>
+
+
+				<section class="form-section" id="section-3">
+					<div class="section-title">
+						<span class="section-num">04</span>
+						<h2>Habilidades &amp; Idiomas</h2>
+					</div>
+
+					<div class="field">
+						<label for="habilidades">Habilidades Técnicas</label> <input
+							type="text" id="habilidades" th:field="*{habilidades}"
+							placeholder="Java, Spring Boot, PostgreSQL, Docker, Git...">
+						<small>Separe as habilidades por vírgula</small>
+					</div>
+
+					<div class="field">
+						<label for="idiomas">Idiomas</label> <input type="text"
+							id="idiomas" th:field="*{idiomas}"
+							placeholder="Português (nativo), Inglês (avançado), Espanhol (básico)">
+						<small>Separe os idiomas por vírgula</small>
+					</div>
+
+					<div class="tags-preview" id="habilidadesPreview"></div>
+					<div class="tags-preview" id="idiomasPreview"></div>
+
+					<div class="section-nav">
+						<button type="button" class="btn btn-prev"
+							onclick="goToSection(2)">← Anterior</button>
+						<button type="submit" class="btn btn-submit" id="submitBtn">
+							<span>Salvar Currículo ✦</span>
+						</button>
+					</div>
+				</section>
+
+			</form>
+		</main>
+	</div>
+
+	<script th:src="@{/js/form.js}"></script>
+</body>
+</html>
