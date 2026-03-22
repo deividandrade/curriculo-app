@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,6 +44,18 @@ public class CurriculoService {
 		}
 		curriculo.setFormacoes(formacoes);
 
+		List<Experiencia> experiencias = new ArrayList<>();
+		if (dto.getEmpresas() != null) {
+			for (int i = 0; i < dto.getEmpresas().size(); i++) {
+				if (!dto.getEmpresas().get(i).isBlank()) {
+					Experiencia e = Experiencia.builder().empresa(get(dto.getEmpresas(), i))
+							.cargo(get(dto.getCargos(), i)).dataInicio(get(dto.getDatasInicio(), i))
+							.dataFim(get(dto.getDatasFim(), i)).descricao(get(dto.getDescricoes(), i))
+							.curriculo(curriculo).build();
+					experiencias.add(e);
+				}
+			}
+		}
 		curriculo.setExperiencias(experiencias);
 
 		return curriculoRepository.save(curriculo);
@@ -50,4 +65,15 @@ public class CurriculoService {
 		return curriculoRepository.findAll();
 	}
 
+	private List<String> parseList(String valor) {
+		if (valor == null || valor.isBlank())
+			return new ArrayList<>();
+		return Arrays.stream(valor.split(",")).map(String::trim).filter(s -> !s.isEmpty()).collect(Collectors.toList());
+	}
+
+	private String get(List<String> lista, int i) {
+		if (lista == null || i >= lista.size())
+			return "";
+		return lista.get(i) != null ? lista.get(i) : "";
+	}
 }
